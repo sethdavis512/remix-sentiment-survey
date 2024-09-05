@@ -5,7 +5,7 @@ import {
   LoaderFunctionArgs,
   redirect,
 } from "@remix-run/node";
-import { Form, useLoaderData } from "@remix-run/react";
+import { Form, Link, useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 
 import { deleteSurvey, getSurveyById } from "~/models/survey.server";
@@ -52,11 +52,16 @@ export default function SurveyRoute() {
   return (
     <>
       <h1 className="my-4 text-4xl font-bold">{survey?.title}</h1>
-      <Form method="POST">
-        <Button name="intent" value="delete" color="red">
-          Delete
+      <div className="my-4 flex gap-2">
+        <Button asChild>
+          <Link to={`/public/${survey?.id}`}>Add new submission</Link>
         </Button>
-      </Form>
+        <Form method="POST">
+          <Button name="intent" value="delete" color="red">
+            Delete
+          </Button>
+        </Form>
+      </div>
       <div className="mb-4 space-y-4">
         {survey?.questions.map((question) => {
           const answerEntries = Object.entries(

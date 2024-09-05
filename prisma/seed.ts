@@ -24,6 +24,16 @@ const getRandomSurveyTitle = () =>
     "Shape Our Service: Tell Us What You Think",
     "We Value Your Opinion: Survey & Feedback Form",
     "How Did We Do? Share Your Experience",
+    "Spill the Beans: What Did You Think?",
+    "High Five or Thumbs Down? Let Us Know!",
+    "Tell Us Like It Is: Quick Feedback Survey",
+    "Give Us the Scoop: How Was It?",
+    "Speak Your Mind: Your Voice, Our Improvement!",
+    "Quick Check-In: Did We Nail It or Fail It?",
+    "Hit Us with Your Thoughts: Feedback Survey",
+    "Survey Says: What’s Your Verdict?",
+    "We’re All Ears: Share Your Experience!",
+    "Shout Out or Call Out: What’s Your Take?",
   ]);
 
 const getRandomSurveyQuestions = () =>
@@ -149,7 +159,7 @@ async function seed() {
 
   for (
     let parentIndex = 0;
-    parentIndex < faker.number.int({ min: 5, max: 10 });
+    parentIndex < faker.number.int({ min: 20, max: 50 });
     parentIndex++
   ) {
     const title = getRandomSurveyTitle();
