@@ -10,11 +10,11 @@ export default function Index() {
   const user = useOptionalUser();
 
   return (
-    <main className="relative min-h-screen bg-white sm:flex sm:items-center sm:justify-center">
+    <main className="relative min-h-screen sm:flex sm:items-center sm:justify-center">
       {user ? (
         <Link
           to={Paths.DASHBOARD}
-          className="flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-3 text-base font-medium text-yellow-700 shadow-sm hover:bg-yellow-50 sm:px-8"
+          className="flex items-center justify-center rounded-md border border-transparent px-4 py-3 text-base font-medium text-yellow-700 shadow-sm hover:bg-yellow-50 sm:px-8"
         >
           View surveys for {user.email}
         </Link>
