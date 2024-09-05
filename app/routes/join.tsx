@@ -10,10 +10,11 @@ import { useEffect, useRef } from "react";
 import { createUser, getUserByEmail } from "~/models/user.server";
 import { createUserSession, getUserId } from "~/session.server";
 import { safeRedirect, validateEmail } from "~/utils";
+import { Paths } from "~/utils/paths";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const userId = await getUserId(request);
-  if (userId) return redirect("/");
+  if (userId) return redirect(Paths.HOME);
   return json({});
 };
 
@@ -21,7 +22,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
   const email = formData.get("email");
   const password = formData.get("password");
-  const redirectTo = safeRedirect(formData.get("redirectTo"), "/");
+  const redirectTo = safeRedirect(formData.get("redirectTo"), Paths.HOME);
 
   if (!validateEmail(email)) {
     return json(
@@ -57,7 +58,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     );
   }
 
-  const user = await createUser(email, password);
+  const firstName = "Bob";
+  const lastName = "Belcher";
+
+  const user = await createUser(email, password, firstName, lastName);
 
   return createUserSession({
     redirectTo,
@@ -156,7 +160,7 @@ export default function Join() {
               <Link
                 className="text-blue-500 underline"
                 to={{
-                  pathname: "/login",
+                  pathname: Paths.LOGIN,
                   search: searchParams.toString(),
                 }}
               >

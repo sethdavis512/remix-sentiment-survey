@@ -1,38 +1,80 @@
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+    provider = "sqlite"
+    url      = env("DATABASE_URL")
 }
 
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 model User {
-  id    String @id @default(cuid())
-  email String @unique
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  password Password?
-  notes    Note[]
+    id        String     @id @default(cuid())
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
+    email     String     @unique
+    firstName String
+    lastName  String
+    password  Password?
+    Survey    Survey[]
+    Question  Question[]
+    Response  Response[]
 }
 
 model Password {
-  hash String
-
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String @unique
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    hash      String
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    userId    String   @unique
 }
 
-model Note {
-  id    String @id @default(cuid())
-  title String
-  body  String
+model Survey {
+    id          String     @id @default(cuid())
+    createdAt   DateTime   @default(now())
+    updatedAt   DateTime   @updatedAt
+    createdBy   User?      @relation(fields: [createdById], references: [id], onDelete: Cascade)
+    createdById String?
+    title       String
+    description String?
+    questions   Question[]
+    passcode    String
+    responses   Response[]
+}
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Question {
+    id          String     @id @default(cuid())
+    createdAt   DateTime   @default(now())
+    updatedAt   DateTime   @updatedAt
+    createdBy   User       @relation(fields: [createdById], references: [id])
+    createdById String
+    text        String
+    surveyId    String?
+    survey      Survey?    @relation(fields: [surveyId], references: [id], onDelete: SetNull)
+    responses   Response[]
+    choices     Choice[]
+}
 
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String
+model Response {
+    id         String   @id @default(cuid())
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+    choice     Choice   @relation(fields: [choiceId], references: [id])
+    choiceId   String
+    question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+    questionId String
+    user       User     @relation(fields: [userId], references: [id])
+    userId     String
+    survey     Survey?  @relation(fields: [surveyId], references: [id], onDelete: Cascade)
+    surveyId   String?
+}
+
+model Choice {
+    id        String     @id @default(cuid())
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
+    label     String
+    value     String
+    responses Response[]
+    questions Question[]
 }

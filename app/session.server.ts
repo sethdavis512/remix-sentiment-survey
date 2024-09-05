@@ -4,6 +4,8 @@ import invariant from "tiny-invariant";
 import type { User } from "~/models/user.server";
 import { getUserById } from "~/models/user.server";
 
+import { Paths } from "./utils/paths";
+
 invariant(process.env.SESSION_SECRET, "SESSION_SECRET must be set");
 
 export const sessionStorage = createCookieSessionStorage({
@@ -47,10 +49,12 @@ export async function requireUserId(
   redirectTo: string = new URL(request.url).pathname,
 ) {
   const userId = await getUserId(request);
+
   if (!userId) {
     const searchParams = new URLSearchParams([["redirectTo", redirectTo]]);
-    throw redirect(`/login?${searchParams}`);
+    throw redirect(`${Paths.LOGIN}?${searchParams}`);
   }
+
   return userId;
 }
 
@@ -76,6 +80,7 @@ export async function createUserSession({
 }) {
   const session = await getSession(request);
   session.set(USER_SESSION_KEY, userId);
+
   return redirect(redirectTo, {
     headers: {
       "Set-Cookie": await sessionStorage.commitSession(session, {
@@ -89,7 +94,7 @@ export async function createUserSession({
 
 export async function logout(request: Request) {
   const session = await getSession(request);
-  return redirect("/", {
+  return redirect(Paths.HOME, {
     headers: {
       "Set-Cookie": await sessionStorage.destroySession(session),
     },
