@@ -9,6 +9,7 @@ import { Form, Link, useLoaderData } from "@remix-run/react";
 import { format } from "date-fns";
 import invariant from "tiny-invariant";
 
+import { deleteAllResponsesForSurvey } from "~/models/response.server";
 import { deleteSurvey, getSurveyById } from "~/models/survey.server";
 import { Paths } from "~/utils/paths";
 
@@ -18,8 +19,13 @@ export async function action({ request, params }: ActionFunctionArgs) {
   invariant(surveyId, "Survey ID does not exist");
   const intent = form.get("intent");
 
-  if (intent === "delete") {
+  if (intent === "delete:survey") {
     await deleteSurvey(surveyId);
+  }
+
+  if (intent === "delete:responses") {
+    await deleteAllResponsesForSurvey(surveyId);
+    return null;
   }
 
   return redirect(Paths.DASHBOARD);
@@ -58,8 +64,13 @@ export default function SurveyRoute() {
           <Link to={`/public/${survey?.id}`}>Add new submission</Link>
         </Button>
         <Form method="POST">
-          <Button name="intent" value="delete" color="red">
-            Delete
+          <Button name="intent" value="delete:survey" color="red">
+            Delete survey
+          </Button>
+        </Form>
+        <Form method="POST">
+          <Button name="intent" value="delete:responses" color="red">
+            Delete all responses
           </Button>
         </Form>
       </div>
@@ -68,11 +79,13 @@ export default function SurveyRoute() {
           const answerEntries = Object.entries(
             survey.responses.reduce(
               (allResponses, currentResponse) => {
-                if (allResponses[currentResponse.choice.label]) {
-                  allResponses[currentResponse.choice.label] =
-                    allResponses[currentResponse.choice.label] + 1;
-                } else {
-                  allResponses[currentResponse.choice.label] = 1;
+                if (question.id === currentResponse.questionId) {
+                  if (allResponses[currentResponse.choice.label]) {
+                    allResponses[currentResponse.choice.label] =
+                      allResponses[currentResponse.choice.label] + 1;
+                  } else {
+                    allResponses[currentResponse.choice.label] = 1;
+                  }
                 }
 
                 return allResponses;

@@ -18,6 +18,14 @@ model User {
     Survey    Survey[]
     Question  Question[]
     Response  Response[]
+    role      RoleType[]
+}
+
+model RoleType {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    users     User[]
 }
 
 model Password {

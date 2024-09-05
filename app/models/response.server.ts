@@ -2,7 +2,7 @@ import { Response } from "@prisma/client";
 
 import { prisma } from "~/db.server";
 
-export const createResponses = (responses: Response[]) => {
+export function createResponses(responses: Response[]) {
   return prisma.response.createMany({
     data: responses.map((response) => ({
       choiceId: response.choiceId,
@@ -11,4 +11,12 @@ export const createResponses = (responses: Response[]) => {
       userId: response.userId,
     })),
   });
-};
+}
+
+export function deleteAllResponsesForSurvey(surveyId: string) {
+  return prisma.response.deleteMany({
+    where: {
+      surveyId,
+    },
+  });
+}
