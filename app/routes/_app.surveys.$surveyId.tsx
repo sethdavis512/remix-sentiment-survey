@@ -1,4 +1,4 @@
-import { Badge, BadgeProps, Button } from "@radix-ui/themes";
+import { Badge, BadgeProps, Button, DataList } from "@radix-ui/themes";
 import {
   ActionFunctionArgs,
   json,
@@ -6,6 +6,7 @@ import {
   redirect,
 } from "@remix-run/node";
 import { Form, Link, useLoaderData } from "@remix-run/react";
+import { format } from "date-fns";
 import invariant from "tiny-invariant";
 
 import { deleteSurvey, getSurveyById } from "~/models/survey.server";
@@ -92,6 +93,22 @@ export default function SurveyRoute() {
                   >{`${label}: ${count}`}</Badge>
                 ))}
               </div>
+              <details className="my-4 rounded-lg border border-zinc-500 p-4">
+                <summary>See response data</summary>
+                <DataList.Root className="my-4">
+                  {survey.responses.map((response) => (
+                    <DataList.Item key={response.id}>
+                      <DataList.Label>
+                        {response.user.firstName} {response.user.lastName}
+                      </DataList.Label>
+                      <DataList.Value>
+                        {response.choice.label} (
+                        {format(response.createdAt, "yyyy/mm/dd p")})
+                      </DataList.Value>
+                    </DataList.Item>
+                  ))}
+                </DataList.Root>
+              </details>
             </div>
           );
         })}
