@@ -1,6 +1,4 @@
 import { Theme } from "@radix-ui/themes";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
 import {
   Links,
   Meta,
@@ -9,16 +7,10 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
-import { getUser } from "~/session.server";
-
 import "~/tailwind.css";
 import "@radix-ui/themes/styles.css";
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
-  return json({ user: await getUser(request) });
-};
-
-export default function App() {
+export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="h-full">
       <head>
@@ -29,11 +21,15 @@ export default function App() {
       </head>
       <Theme appearance="dark">
         <body className="h-full">
-          <Outlet />
+          {children}
           <ScrollRestoration />
           <Scripts />
         </body>
       </Theme>
     </html>
   );
+}
+
+export default function App() {
+  return <Outlet />;
 }
