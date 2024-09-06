@@ -1,14 +1,6 @@
 import { faker } from "@faker-js/faker";
-import { PrismaClient, User } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
-// import { hideBin } from "yargs/helpers";
-// import yargs from "yargs/yargs";
-
-// const argv = yargs(hideBin(process.argv))
-//   .options({
-//     dropOnly: { type: "boolean", default: false },
-//   })
-//   .parseSync();
 
 const prisma = new PrismaClient();
 
@@ -68,11 +60,6 @@ async function seed() {
   await prisma.survey.deleteMany({}).catch(noop);
   await prisma.choice.deleteMany({}).catch(noop);
 
-  const getRandomChoice = async () => {
-    const choices = await prisma.choice.findMany();
-    return faker.helpers.arrayElement(choices);
-  };
-
   await prisma.choice.createMany({
     data: [
       {
@@ -100,12 +87,6 @@ async function seed() {
 
   const email = "seth@mail.com";
   const hashedPassword = await bcrypt.hash("asdfasdf", 10);
-
-  //   if (argv.dropOnly) {
-  //     console.log(`Dropped ⬇️`);
-  //     return;
-  //   }
-
   const userCount = await prisma.user.count();
 
   let user = await prisma.user.findUnique({
@@ -134,7 +115,7 @@ async function seed() {
   if (userCount < 5) {
     for (
       let index = 0;
-      index < faker.number.int({ min: 1, max: 10 });
+      index < faker.number.int({ min: 10, max: 30 });
       index++
     ) {
       await prisma.user.create({
@@ -157,6 +138,9 @@ async function seed() {
     id: choice.id,
   }));
 
+  const allUsers = await prisma.user.findMany();
+  const choices = await prisma.choice.findMany();
+
   for (
     let parentIndex = 0;
     parentIndex < faker.number.int({ min: 20, max: 50 });
@@ -172,15 +156,12 @@ async function seed() {
       },
     });
 
-    const responseCount = faker.number.int({ min: 1, max: 10 });
+    const randomUsers = faker.helpers.arrayElements(allUsers, 3);
 
-    for (
-      let index = 0;
-      index < faker.number.int({ min: 1, max: 10 });
-      index++
-    ) {
+    for (const user of randomUsers) {
       const text = getRandomSurveyQuestions();
-      const question = await prisma.question.create({
+
+      await prisma.question.create({
         data: {
           text,
           createdById: user.id,
@@ -188,21 +169,15 @@ async function seed() {
           choices: {
             connect: choicesIds,
           },
+          responses: {
+            create: randomUsers.map((randomUser) => ({
+              choiceId: faker.helpers.arrayElement(choices).id,
+              userId: randomUser.id,
+              surveyId: survey.id,
+            })),
+          },
         },
       });
-
-      for (let index = 0; index < responseCount; index++) {
-        const randomChoice = await getRandomChoice();
-
-        await prisma.response.create({
-          data: {
-            choiceId: randomChoice.id,
-            userId: (user as User).id,
-            questionId: question.id,
-            surveyId: survey.id,
-          },
-        });
-      }
     }
   }
 

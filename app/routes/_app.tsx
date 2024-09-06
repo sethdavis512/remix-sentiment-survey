@@ -12,8 +12,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function AppRoute() {
   return (
-    <div className="grid grid-cols-12">
-      <div className="col-span-2 p-4">
+    <div className="grid h-full grid-cols-12">
+      <div className="col-span-2 bg-zinc-900 p-4">
         <ul>
           <li>
             <Link
@@ -33,7 +33,7 @@ export default function AppRoute() {
           </li>
         </ul>
       </div>
-      <div className="col-span-10">
+      <div className="col-span-10 px-4">
         <Outlet />
       </div>
     </div>

@@ -62,20 +62,29 @@ export default function SurveyRoute() {
       <h3 className="my-4 text-2xl font-bold">
         Responses: {survey?.responses.length}
       </h3>
-      <div className="my-4 flex gap-2">
-        <Button asChild>
-          <Link to={`/public/${survey?.id}`}>Add new submission</Link>
-        </Button>
-        <Form method="POST">
-          <Button name="intent" value="delete:survey" color="red">
-            Delete survey
+      <div className="my-4 flex justify-between gap-2">
+        <div>
+          <Button asChild>
+            <Link to={`/public/${survey?.id}`}>Add new submission</Link>
           </Button>
-        </Form>
-        <Form method="POST">
-          <Button name="intent" value="delete:responses" color="red">
-            Delete all responses
-          </Button>
-        </Form>
+        </div>
+        <div className="flex gap-2">
+          <Form method="POST">
+            <Button
+              name="intent"
+              value="delete:responses"
+              color="red"
+              variant="outline"
+            >
+              Delete all responses
+            </Button>
+          </Form>
+          <Form method="POST">
+            <Button name="intent" value="delete:survey" color="red">
+              Delete survey
+            </Button>
+          </Form>
+        </div>
       </div>
       <div className="mb-4 space-y-4">
         {survey?.questions.map((question) => {
