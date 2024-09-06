@@ -39,6 +39,12 @@ export const getSurveyById = (surveyId: string) => {
       questions: {
         include: {
           choices: true,
+          responses: {
+            include: {
+              choice: true,
+              user: true,
+            },
+          },
         },
       },
       responses: {

@@ -59,6 +59,9 @@ export default function SurveyRoute() {
   return (
     <>
       <h1 className="my-4 text-4xl font-bold">{survey?.title}</h1>
+      <h3 className="my-4 text-2xl font-bold">
+        Responses: {survey?.responses.length}
+      </h3>
       <div className="my-4 flex gap-2">
         <Button asChild>
           <Link to={`/public/${survey?.id}`}>Add new submission</Link>
@@ -109,9 +112,9 @@ export default function SurveyRoute() {
               <details className="my-4 rounded-lg border border-zinc-500 p-4">
                 <summary>See response data</summary>
                 <DataList.Root className="my-4">
-                  {survey.responses.map((response) => (
-                    <DataList.Item key={response.id}>
-                      <DataList.Label>
+                  {question.responses.map((response) => (
+                    <DataList.Item key={question.id}>
+                      <DataList.Label key={response.id}>
                         {response.user.firstName} {response.user.lastName}
                       </DataList.Label>
                       <DataList.Value>
