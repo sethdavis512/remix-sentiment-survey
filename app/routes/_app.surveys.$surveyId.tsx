@@ -110,13 +110,15 @@ export default function SurveyRoute() {
             <div key={question.id}>
               <div className="mb-4">{question.text}</div>
               <div className="flex gap-2">
-                {answerEntries.map(([label, count]) => (
-                  <Badge
-                    variant="soft"
-                    color={getLabelColor(label)}
-                    key={`${label}${count}`}
-                  >{`${label}: ${count}`}</Badge>
-                ))}
+                {answerEntries
+                  .sort(([a], [b]) => (a > b ? 1 : -1))
+                  .map(([label, count]) => (
+                    <Badge
+                      variant="soft"
+                      color={getLabelColor(label)}
+                      key={`${label}${count}`}
+                    >{`${label}: ${count}`}</Badge>
+                  ))}
               </div>
               <details className="my-4 rounded-lg border border-zinc-500 p-4">
                 <summary>See response data</summary>

@@ -27,7 +27,7 @@ export async function action({ request }: ActionFunctionArgs) {
     }));
   await addResponseToSurvey(surveyId, answers, userId!);
 
-  return redirect(Paths.SUCCESS);
+  return redirect(`${Paths.PUBLIC}/${surveyId}${Paths.SUCCESS}`);
 }
 
 export async function loader({ params }: LoaderFunctionArgs) {

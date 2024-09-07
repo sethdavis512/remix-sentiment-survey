@@ -55,11 +55,19 @@ export default function DashboardRoute() {
 
           return (
             <li key={survey.id}>
-              <Card>
-                <div className="mb-4">
+              <Card className="space-y-4">
+                <div className="">
                   {survey.title} (Responses: {survey.responses.length})
                 </div>
-                <div className="mb-4 flex gap-4">
+                <div className="flex gap-2">
+                  <Button asChild variant="soft">
+                    <Link to={`/surveys/${survey.id}`}>See survey stats</Link>
+                  </Button>
+                  <Button asChild variant="soft">
+                    <Link to={`/public/${survey.id}`}>Add new submission</Link>
+                  </Button>
+                </div>
+                <div className="flex gap-4">
                   {answerEntries.map(([label, count]) => (
                     <Badge
                       variant="soft"
@@ -67,14 +75,6 @@ export default function DashboardRoute() {
                       key={`${label}${count}`}
                     >{`${label}: ${count}`}</Badge>
                   ))}
-                </div>
-                <div className="flex gap-2 pt-2">
-                  <Button asChild variant="soft">
-                    <Link to={`/surveys/${survey.id}`}>See survey stats</Link>
-                  </Button>
-                  <Button asChild variant="soft">
-                    <Link to={`/public/${survey.id}`}>Add new submission</Link>
-                  </Button>
                 </div>
               </Card>
             </li>

@@ -20,7 +20,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body className="h-full">
-        <Theme appearance="dark">{children}</Theme>
+        <Theme appearance="dark" className="h-full">
+          {children}
+        </Theme>
         <ScrollRestoration />
         <Scripts />
       </body>

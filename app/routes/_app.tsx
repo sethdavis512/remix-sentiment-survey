@@ -38,8 +38,8 @@ export default function AppRoute() {
           </li>
         </ul>
       </aside>
-      <main className="col-span-10 overflow-y-auto break-all">
-        <div className="p-4">
+      <main className="col-span-10 flex flex-col overflow-y-auto break-all">
+        <div className="flex-1 p-4">
           <Outlet />
         </div>
         <footer className="col-span-full px-4 py-12">
