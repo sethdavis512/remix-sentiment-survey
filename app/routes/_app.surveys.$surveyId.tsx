@@ -120,7 +120,7 @@ export default function SurveyRoute() {
                     >{`${label}: ${count}`}</Badge>
                   ))}
               </div>
-              <details className="my-4 rounded-lg border border-zinc-500 p-4">
+              <details className="my-4 rounded-lg border border-zinc-800 p-4">
                 <summary>See response data</summary>
                 <DataList.Root className="my-4">
                   {question.responses.map((response) => (
