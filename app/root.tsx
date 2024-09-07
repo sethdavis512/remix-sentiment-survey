@@ -7,8 +7,8 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
-import "~/tailwind.css";
 import "@radix-ui/themes/styles.css";
+import "~/tailwind.css";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -19,13 +19,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <Theme appearance="dark">
-        <body className="h-full">
-          {children}
-          <ScrollRestoration />
-          <Scripts />
-        </body>
-      </Theme>
+      <body className="h-full">
+        <Theme appearance="dark">{children}</Theme>
+        <ScrollRestoration />
+        <Scripts />
+      </body>
     </html>
   );
 }

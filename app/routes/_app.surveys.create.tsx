@@ -21,14 +21,21 @@ export default function CreateSurveyRoute() {
 
   return (
     <Form method="POST" className="max-w-2xl">
-      <TextField.Root placeholder="Survey title" name="title" />
-      <Button
-        type="button"
-        onClick={() => setNumberOfQuestions(numberOfQuestions + 1)}
-      >
-        Add question
-      </Button>
-      <Button type="submit">Submit the form</Button>
+      <div className="mb-4 space-y-4">
+        <TextField.Root placeholder="Survey title" name="title" />
+        <TextField.Root placeholder="Survey title" name="title" />
+        <TextField.Root placeholder="Survey title" name="title" />
+        <TextField.Root placeholder="Survey title" name="title" />
+      </div>
+      <div className="flex gap-2">
+        <Button
+          type="button"
+          onClick={() => setNumberOfQuestions(numberOfQuestions + 1)}
+        >
+          Add question
+        </Button>
+        <Button type="submit">Submit the form</Button>
+      </div>
     </Form>
   );
 }

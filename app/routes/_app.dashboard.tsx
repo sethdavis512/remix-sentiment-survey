@@ -33,9 +33,10 @@ export default function DashboardRoute() {
   };
 
   return (
-    <div className="p-8">
+    <div className="">
       <ul className="space-y-4">
         {surveys.map((survey) => {
+          // TODO: Refactor payload to come from loader, no logic on FE
           const answerEntries = Object.entries(
             survey.responses.reduce(
               (allResponses, currentResponse) => {

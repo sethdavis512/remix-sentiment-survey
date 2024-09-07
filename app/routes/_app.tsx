@@ -12,8 +12,13 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function AppRoute() {
   return (
-    <div className="grid h-full grid-cols-12">
-      <div className="col-span-2 bg-zinc-900 p-4">
+    <div className="grid h-screen w-screen grid-cols-12 grid-rows-[auto_1fr_auto]">
+      <nav className="col-span-full border-b border-b-zinc-800 p-4">
+        <div className="text-2xl font-bold">
+          SurveyShark<span className="ml-2">📋🦈</span>
+        </div>
+      </nav>
+      <aside className="col-span-2 overflow-y-auto border-r border-r-zinc-800 p-4">
         <ul>
           <li>
             <Link
@@ -32,10 +37,15 @@ export default function AppRoute() {
             </Link>
           </li>
         </ul>
-      </div>
-      <div className="col-span-10 px-4">
-        <Outlet />
-      </div>
+      </aside>
+      <main className="col-span-10 overflow-y-auto break-all">
+        <div className="p-4">
+          <Outlet />
+        </div>
+        <footer className="col-span-full px-4 py-12">
+          SurveyShark is not real. Its a prototype by Seth Davis.
+        </footer>
+      </main>
     </div>
   );
 }
