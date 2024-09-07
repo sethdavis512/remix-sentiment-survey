@@ -130,7 +130,7 @@ export default function SurveyRoute() {
                       </DataList.Label>
                       <DataList.Value>
                         {response.choice.label} (
-                        {format(response.createdAt, "yyyy/mm/dd p")})
+                        {format(response.createdAt, "yyyy/MM/dd p")})
                       </DataList.Value>
                     </DataList.Item>
                   ))}
